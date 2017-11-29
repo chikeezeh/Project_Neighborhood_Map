@@ -12,3 +12,9 @@ body {
   height: 100%;
   position: relative;
 }
+.row {
+    height:100%;
+}
+#side-panel{
+    height:100%;
+}

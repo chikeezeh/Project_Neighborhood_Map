@@ -6,3 +6,4 @@ function initMap() {
     zoom: 13
     });
 }
+ko.applyBindings(new appModel());
