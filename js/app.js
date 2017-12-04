@@ -1,3 +1,11 @@
+var appModel = function(){
+    // define our model
+
+
+    //define our viewModel
+
+};
+
 var map;
 function initMap() {
     // Constructor creates a new map - only center and zoom are required.
