@@ -21,5 +21,10 @@ function initMap() {
     center: {lat: 29.948762, lng: -90.127115},
     zoom: 13
     });
+    var marker = new google.maps.Marker({
+        position: locations[0].location,
+        map:map,
+        title:'First Marker'
+        });
 }
 ko.applyBindings(new ViewModel());
