@@ -21,10 +21,22 @@ function initMap() {
     center: {lat: 29.948762, lng: -90.127115},
     zoom: 13
     });
-    var marker = new google.maps.Marker({
-        position: locations[0].location,
-        map:map,
-        title:'First Marker'
-        });
+    var markers = [];
+    for (var i = 0; i < locations.length; i++ ){
+        // get position from location array
+        var position = locations[i].location;
+        var title = locations[i].title;
+        var marker = new google.maps.Marker({
+            position:position,
+            title:title,
+            map:map,
+            title:title,
+            animation:google.maps.Animation.DROP,
+            id:i
+            });
+        // push each marker to the markers array
+        markers.push(marker);
+    }
+
 }
 ko.applyBindings(new ViewModel());
