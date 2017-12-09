@@ -8,8 +8,13 @@ var locations = [
 ];
 var ViewModel = function(){
     // define our model
-
-
+    var self = this;
+    // an empty array to contain the names of each restaurant.
+    self.locationList = [];
+    // loop over the initial location array and add the title alone to the array.
+    locations.forEach(function(locationItem){
+        self.locationList.push(locationItem.title);
+    });
     //define our viewModel
 
 };
