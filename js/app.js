@@ -20,13 +20,15 @@ var ViewModel = function(){
 };
 
 var map;
+var markers = [];
 function initMap() {
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 29.948762, lng: -90.127115},
     zoom: 13
     });
-    var markers = [];
+    var largeInfowindow = new google.maps.InfoWindow();
+    var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < locations.length; i++ ){
         // get position from location array
         var position = locations[i].location;
@@ -41,7 +43,30 @@ function initMap() {
             });
         // push each marker to the markers array
         markers.push(marker);
+        // create an onclick event to open an infowindow at each marker.
+        marker.addListener('click', function() {
+          populateInfoWindow(this, largeInfowindow);
+        });
+        bounds.extend(markers[i].position);
     }
+    // Extend the boundaries of the map for each marker
+    map.fitBounds(bounds);
 
 }
+// This function populates the infowindow when the marker is clicked. We'll only allow
+// one infowindow which will open at the marker that is clicked, and populate based
+// on that markers position.
+function populateInfoWindow(marker, infowindow) {
+  // Check to make sure the infowindow is not already opened on this marker.
+  if (infowindow.marker != marker) {
+    infowindow.marker = marker;
+    infowindow.setContent('<div>' + marker.title + '</div>');
+    infowindow.open(map, marker);
+    // Make sure the marker property is cleared if the infowindow is closed.
+    infowindow.addListener('closeclick',function(){
+      infowindow.setMarker = null;
+    });
+  }
+}
+
 ko.applyBindings(new ViewModel());
