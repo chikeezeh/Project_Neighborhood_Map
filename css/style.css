@@ -50,3 +50,7 @@ h1{
 ul{
     list-style-type: none;
 }
+#pano {
+    width: 200px;
+    height: 200px;
+}
