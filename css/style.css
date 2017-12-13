@@ -20,7 +20,7 @@ body {
 }*/
 .container {
     display: grid;
-    grid-gap:10px;
+    grid-gap:0px;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows:100vh;
     grid-template-areas:
