@@ -126,5 +126,9 @@ function populateInfoWindow(marker, infowindow) {
           new google.maps.Size(21,34));
         return markerImage;
       }
+// error that alerts users if the map doesnt load.
+function googleMapError(){
+    document.getElementById('error').innerHTML = "<h2>Google Maps is not loading, please check your connection, or try reloading the page.</h2>";
+}
 
 ko.applyBindings(new ViewModel());
