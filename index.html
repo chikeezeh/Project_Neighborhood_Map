@@ -17,12 +17,12 @@
                 Restaurants I love!
             </h1>
             <div class="input-group search">
-                  <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for...">
+                  <input type="text" class="form-control" placeholder="Search for..." data-bind="textInput: userInput, event: {keyup: filterMarkers}">
                   <span class="input-group-btn">
                     <button class="btn btn-secondary" type="button">Go!</button>
                   </span>
             </div>
-            <ul data-bind = "foreach: locationList">
+            <ul data-bind = "foreach: visibleList">
                 <a href="#">
                     <li data-bind = "text: $data"></li>
                 </a>
