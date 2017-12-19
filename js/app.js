@@ -13,7 +13,7 @@ var ViewModel = function(){
     self.locationList = ko.observableArray([]);
     // loop over the initial location array and add the title alone to the array.
     locations.forEach(function(locationItem){
-        self.locationList.push(locationItem.title);
+        self.locationList.push(locationItem);
     });
     // filter the locations based on user input
     self.visibleList = ko.observableArray([]); // an array of the list that should be visible.
@@ -35,7 +35,7 @@ var ViewModel = function(){
             // locationItem.marker.setVisible(false);
             // Compare the name of each place to user input
             // If user input is included in the name, set the place and marker as visible
-            if (locationItem.toLowerCase().indexOf(searchInput) !== -1) {
+            if (locationItem.title.toLowerCase().indexOf(searchInput) !== -1) {
                 self.visibleList.push(locationItem);
             }
         });
