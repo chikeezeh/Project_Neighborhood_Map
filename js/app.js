@@ -6,51 +6,7 @@ var locations = [
     {title: 'Commander\'s Palace', location: {lat: 29.928723, lng: -90.084324}},
     {title: 'The Bulldog, Uptown', location: {lat: 29.923530, lng: -90.087461}}
 ];
-var ViewModel = function(){
-    // define our model
-    var self = this;
-    // an empty array to contain the names of each restaurant.
-    self.locationList = ko.observableArray([]);
-    // loop over the initial location array and add the title alone to the array.
-    locations.forEach(function(locationItem){
-        self.locationList.push(locationItem);
-    });
-    // filter the locations based on user input
-    self.visibleList = ko.observableArray([]); // an array of the list that should be visible.
-    // the visibleList should contain all the array initially, then filter it by search input.
-    self.locationList().forEach(function (locationItem){
-        self.visibleList.push(locationItem);
-    });
-    // track the user input
-    self.userInput = ko.observable('');
-
-    // take user input and use it to filter the locations on the list.
-    self.filterMarkers = function () {
-        // convert the user input to lower case letters
-        var searchInput = self.userInput().toLowerCase();
-        // remove all the visible location list
-        self.visibleList.removeAll();
-
-        self.locationList().forEach(function (locationItem) {
-            // locationItem.marker.setVisible(false);
-            // Compare the name of each place to user input
-            // If user input is included in the name, set the place and marker as visible
-            if (locationItem.title.toLowerCase().indexOf(searchInput) !== -1) {
-                self.visibleList.push(locationItem);
-            }
-        });
-        self.visibleList().forEach(function (locationItem) {
-            //locationItem.marker.setVisible(true);
-        });
-    };
-
-
-    //define our viewModel
-
-};
-
 var map;
-var markers = [];
 function initMap() {
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
@@ -96,8 +52,55 @@ function initMap() {
     }
     // Extend the boundaries of the map for each marker
     map.fitBounds(bounds);
-
+    // start the view model here, so that it only works when Google map is succesfully loaded.
+    ko.applyBindings(new ViewModel());
 }
+var ViewModel = function(){
+    // define our model
+    var self = this;
+    // an empty array to contain the names of each restaurant.
+    self.locationList = ko.observableArray([]);
+    // loop over the initial location array and add the title alone to the array.
+    locations.forEach(function(locationItem){
+        self.locationList.push(locationItem);
+    });
+    // filter the locations based on user input
+    self.visibleList = ko.observableArray([]); // an array of the list that should be visible.
+    // the visibleList should contain all the array initially, then filter it by search input.
+    self.locationList().forEach(function (locationItem){
+        self.visibleList.push(locationItem);
+    });
+    // track the user input
+    self.userInput = ko.observable('');
+
+    // take user input and use it to filter the locations on the list.
+    self.filterMarkers = function () {
+        // convert the user input to lower case letters
+        var searchInput = self.userInput().toLowerCase();
+        // remove all the visible location list
+        self.visibleList.removeAll();
+
+        self.locationList().forEach(function (locationItem) {
+            // locationItem.marker.setVisible(false);
+            // Compare the name of each place to user input
+            // If user input is included in the name, set the place and marker as visible
+            if (locationItem.title.toLowerCase().indexOf(searchInput) !== -1) {
+                self.visibleList.push(locationItem);
+            }
+        });
+        self.visibleList().forEach(function (locationItem) {
+            //locationItem.marker.setVisible(true);
+        });
+    };
+
+
+    //define our viewModel
+
+};
+
+
+var markers = [];
+
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
@@ -160,5 +163,3 @@ function populateInfoWindow(marker, infowindow) {
 function googleMapError(){
     document.getElementById('error').innerHTML = "<h2>Google Maps is not loading, please check your connection, or try reloading the page.</h2>";
 }
-
-ko.applyBindings(new ViewModel());
