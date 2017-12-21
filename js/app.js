@@ -33,10 +33,11 @@ var Location = function (data){
 var ViewModel = function(){
     var self = this;
     // an empty array to contain the names of each restaurant.
-    self.locationList = ko.observableArray([]);
-    // loop over the initial location array and add the title alone to the array.
+    this.locationList = ko.observableArray([]);
+    // loop over locations array and create a new Location object for each restaurant in locationList
+    // and store is in the locationList array.
     locations.forEach(function(locationItem){
-        self.locationList.push(locationItem);
+        self.locationList.push(new Location(locationItem));
     });
     // filter the locations based on user input
     self.visibleList = ko.observableArray([]); // an array of the list that should be visible.
@@ -58,7 +59,7 @@ var ViewModel = function(){
             // locationItem.marker.setVisible(false);
             // Compare the name of each place to user input
             // If user input is included in the name, set the place and marker as visible
-            if (locationItem.title.toLowerCase().indexOf(searchInput) !== -1) {
+            if (locationItem.title().toLowerCase().indexOf(searchInput) !== -1) {
                 self.visibleList.push(locationItem);
             }
         });
