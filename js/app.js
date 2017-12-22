@@ -50,7 +50,7 @@ var ViewModel = function(){
     // mouses over the marker.
     var highlightedIcon = makeMarkerIcon('e3ed74');
     var bounds = new google.maps.LatLngBounds();
-    for (var i = 0; i < locations.length; i++ ){
+    for (var i = 0; i < this.locationList().length; i++ ){
         // get position from location array
         var position = locations[i].location;
         var title = locations[i].title;
@@ -79,9 +79,10 @@ var ViewModel = function(){
           });
         bounds.extend(markers[i].position);
     }
-    // Extend the boundaries of the map for each marker
-    map.fitBounds(bounds);
-    function populateInfoWindow(marker, infowindow) {
+    // This function populates the infowindow when the marker is clicked. We'll only allow
+// one infowindow which will open at the marker that is clicked, and populate based
+// on that markers position.
+function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
@@ -136,6 +137,9 @@ var ViewModel = function(){
           new google.maps.Size(21,34));
         return markerImage;
       }
+    // Extend the boundaries of the map for each marker
+    map.fitBounds(bounds);
+
 
 
     // filter the locations based on user input
