@@ -39,6 +39,7 @@ var ViewModel = function(){
     locations.forEach(function(locationItem){
         self.locationList.push(new Location(locationItem));
     });
+    console.log(this.locationList()[1]);
     // initialize the infowindow
     var largeInfowindow = new google.maps.InfoWindow();
     // initialize the marker
@@ -50,19 +51,20 @@ var ViewModel = function(){
     // mouses over the marker.
     var highlightedIcon = makeMarkerIcon('e3ed74');
     var bounds = new google.maps.LatLngBounds();
-    for (var i = 0; i < this.locationList().length; i++ ){
+    self.locationList().forEach(function (locationItem){
         // get position from location array
-        var position = locations[i].location;
-        var title = locations[i].title;
+        var position = new google.maps.LatLng(locationItem.lat(),locationItem.lng());
+        var title = locationItem.title();
         var marker = new google.maps.Marker({
             position:position,
             title:title,
             map:map,
             title:title,
             animation:google.maps.Animation.DROP,
-            icon: defaultIcon,
-            id:i
+            icon: defaultIcon
             });
+        // assign the marker object to each locationItem
+        locationItem.marker = marker;
         // push each marker to the markers array
         markers.push(marker);
         // create an onclick event to open an infowindow at each marker.
@@ -77,9 +79,10 @@ var ViewModel = function(){
           marker.addListener('mouseout', function() {
             this.setIcon(defaultIcon);
           });
-        bounds.extend(markers[i].position);
-    }
-    // This function populates the infowindow when the marker is clicked. We'll only allow
+        bounds.extend(locationItem.marker.position);
+    })
+    map.fitBounds(bounds);
+// This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
 function populateInfoWindow(marker, infowindow) {
@@ -137,8 +140,7 @@ function populateInfoWindow(marker, infowindow) {
           new google.maps.Size(21,34));
         return markerImage;
       }
-    // Extend the boundaries of the map for each marker
-    map.fitBounds(bounds);
+
 
 
 
@@ -159,7 +161,7 @@ function populateInfoWindow(marker, infowindow) {
         self.visibleList.removeAll();
 
         self.locationList().forEach(function (locationItem) {
-            // locationItem.marker.setVisible(false);
+            locationItem.marker.setVisible(false);
             // Compare the name of each place to user input
             // If user input is included in the name, set the place and marker as visible
             if (locationItem.title().toLowerCase().indexOf(searchInput) !== -1) {
@@ -167,7 +169,7 @@ function populateInfoWindow(marker, infowindow) {
             }
         });
         self.visibleList().forEach(function (locationItem) {
-            //locationItem.marker.setVisible(true);
+            locationItem.marker.setVisible(true);
         });
     };
 };
