@@ -39,7 +39,6 @@ var ViewModel = function(){
     locations.forEach(function(locationItem){
         self.locationList.push(new Location(locationItem));
     });
-    console.log(this.locationList()[1]);
     // initialize the infowindow
     var largeInfowindow = new google.maps.InfoWindow();
     // initialize the marker
@@ -69,7 +68,7 @@ var ViewModel = function(){
         markers.push(marker);
         // create an onclick event to open an infowindow at each marker.
         marker.addListener('click', function() {
-          populateInfoWindow(this, largeInfowindow);
+          self.populateInfoWindow(this, largeInfowindow);
         });
         // Two event listeners - one for mouseover, one for mouseout,
           // to change the colors back and forth.
@@ -85,7 +84,7 @@ var ViewModel = function(){
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
-function populateInfoWindow(marker, infowindow) {
+self.populateInfoWindow = function (marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
@@ -142,8 +141,10 @@ function populateInfoWindow(marker, infowindow) {
       }
 
 
-
-
+     //when the user clicks on the list it triggers a click on the corresponding marker.
+     self.showInfo = function (locationItem) {
+         google.maps.event.trigger(locationItem.marker, 'click');
+      };
     // filter the locations based on user input
     self.visibleList = ko.observableArray([]); // an array of the list that should be visible.
     // the visibleList should contain all the array initially, then filter it by search input.
