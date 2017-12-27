@@ -30,7 +30,7 @@ body {
     text-align: center;
 
 }
-aside {
+nav {
     grid-area: m;
     background: #01041c;
 
