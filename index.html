@@ -11,8 +11,9 @@
 </head>
 <body>
     <div class= "container">
-        <nav>
-            <aside class ="menu">
+        <nav id="nav" role="navigation">
+                <a class="toggle open" href="#nav">o</a>
+                <a class="toggle open" href="#nav">x</a>
                 <h1>
                     Restaurants I love!
                 </h1>
@@ -27,7 +28,6 @@
                         <li data-bind = "text: title, click:$parent.showInfo"></li>
                     </a>
                 </ul>
-            </aside>    
         </nav>
 
         <main class = "content" id ="map" ><div id="error"></div></main>
