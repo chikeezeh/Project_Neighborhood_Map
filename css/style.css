@@ -18,17 +18,24 @@ body {
 #side-panel{
     height:100%;
 }*/
+/* general css */
 .container {
     display: grid;
 }
-nav {
-    background: #01041c;
+aside {
+    background: #d0cfc5;
+    grid-area: a;
 }
 main {
     background: #a7f1e4;
+    grid-area: m;
+}
+header {
+    grid-area: h;
+    background:  #9ca2ad;
 }
 #map {
-    height: 100%;
+    height: auto;
 }
 h1{
     color: red;
@@ -43,52 +50,54 @@ ul{
 .search {
     padding: 5px;
 }
+/*big screen setup*/
 @media only screen and (min-width: 600px) {
     .container {
         display: grid;
         grid-gap:0px;
-        grid-template-columns: repeat(12, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         grid-template-rows:100vh;
         grid-template-areas:
-
-            "m m m m m c c c c c c c"
-            ;
-
-
-    }
-    nav {
-        grid-area: m;
-    }
-    main {
-        grid-area: c;
-    }
-    .toggle {
-      display: none;
-    }
+            "a a m m";
+        }
+        header {
+            display:none;
+        }
+        .toggle {
+            display: none;
+        }
 }
+/*Small screen setup*/
 @media only screen and (max-width: 599px) {
     .container {
         display: grid;
         grid-gap:0px;
-        grid-template-columns: repeat(12, 1fr);
-        grid-template-rows:100vh;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows:50px 100vh;
         grid-template-areas:
 
-            "m m m c c c c c c c c c"
+            "h h h h"
+            "m m m m"
             ;
     }
-    nav {
-        grid-area: m;
+    #nav:target {
+        transform: translateX(340px);
+        }
+    aside {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+        width: 300px;
+        left: -340px;
+        transition: transform .3s ease-in-out;
     }
-    main {
-        grid-area: c;
-    }
-    .closed {
-      text-align: right;
-      display: block;
-      text-decoration: none;
-      font-size: 3em;
-      position: relative;
-      top: -30px;
+    .close {
+        text-align: right;
+        display: block;
+        text-decoration: none;
+        font-size: 3em;
+        position: relative;
+        top: -15px;
     }
 }

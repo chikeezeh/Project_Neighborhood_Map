@@ -11,25 +11,26 @@
 </head>
 <body>
     <div class= "container">
-        <nav id="nav" role="navigation">
-                <a class="toggle open" href="#">o</a>
-                <a class="toggle closed" href="#">x</a>
-                <h1>
-                    Restaurants I love!
-                </h1>
-                <div class="input-group search">
-                      <input type="text" class="form-control" placeholder="Search for..." data-bind="textInput: userInput, event: {keyup: filterMarkers}">
-                      <span class="input-group-btn">
-                        <button class="btn btn-secondary" type="button">Go!</button>
-                      </span>
-                </div>
-                <ul data-bind = "foreach: visibleList">
-                    <a href="#">
-                        <li data-bind = "text: title, click:$parent.showInfo"></li>
-                    </a>
-                </ul>
-        </nav>
-
+        <header>
+            <a href ="#nav" class="toggle open"><img src="img/op20.png"></a>
+        </header>
+        <aside id="nav">
+            <a href ="#" class="toggle close"><img src="img/cl20.png"></a>
+            <h1>
+                Restaurants I love!
+            </h1>
+            <div class="input-group search">
+                  <input type="text" class="form-control" placeholder="Search for..." data-bind="textInput: userInput, event: {keyup: filterMarkers}">
+                  <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button">Go!</button>
+                  </span>
+            </div>
+            <ul data-bind = "foreach: visibleList">
+                <a href="#">
+                    <li data-bind = "text: title, click:$parent.showInfo"></li>
+                </a>
+            </ul>
+        </aside>
         <main class = "content" id ="map" ><div id="error"></div></main>
 
     </div>
