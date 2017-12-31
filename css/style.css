@@ -23,7 +23,7 @@ body {
     display: grid;
 }
 aside {
-    background: #d0cfc5;
+    background: #01041c;
     grid-area: a;
 }
 main {
@@ -32,7 +32,7 @@ main {
 }
 header {
     grid-area: h;
-    background:  #9ca2ad;
+    background:  #01041c;
 }
 #map {
     height: auto;
@@ -92,7 +92,7 @@ ul{
         left: -340px;
         transition: transform .3s ease-in-out;
     }
-    .close {
+    .closed {
         text-align: right;
         display: block;
         text-decoration: none;
