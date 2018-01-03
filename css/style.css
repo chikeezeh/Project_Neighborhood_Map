@@ -1,24 +1,4 @@
-/*html,
-body {
-    font-family: Arial, sans-serif;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-#map {
-    height: 100%;
-}
-.container-fluid {
-  height: 100%;
-  position: relative;
-}
-.row {
-    height:100%;
-}
-#side-panel{
-    height:100%;
-}*/
-/* general css */
+/*General CSS grid*/
 .container {
     display: grid;
 }
