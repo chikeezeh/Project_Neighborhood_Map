@@ -27,7 +27,7 @@
             </div>
             <ul data-bind = "foreach: visibleList">
                 <a href="#">
-                    <li data-bind = "text: title, click:$parent.showInfo"></li>
+                    <li data-bind = "text: title, click:$parent.showInfo, event:{ mouseout:$parent.hoverMarkerOut, mouseover:$parent.hoverMarkerIn}"></li>
                 </a>
             </ul>
         </aside>

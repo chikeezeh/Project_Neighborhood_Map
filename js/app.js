@@ -146,6 +146,14 @@ var ViewModel = function(){
     self.showInfo = function (locationItem) {
         google.maps.event.trigger(locationItem.marker, 'click');
     };
+    //when the user hovers on the list it triggers a mouse hover on the corresponding marker.
+    self.hoverMarkerIn = function (locationItem) {
+        google.maps.event.trigger(locationItem.marker, 'mouseover');
+    };
+    //when the user hovers out the list it triggers a mouse hover out on the corresponding marker.
+    self.hoverMarkerOut = function (locationItem) {
+        google.maps.event.trigger(locationItem.marker, 'mouseout');
+    };
     // filter the locations based on user input
     self.visibleList = ko.observableArray([]); // an array of the list that should be visible.
     // the visibleList should contain all the array initially, then filter it by search input.
