@@ -1,10 +1,10 @@
 // data model for locations to show on map
 var locations = [
-    {title: 'Lebanon\'s Cafe', location: {lat: 29.949595, lng: -90.127439}},
-    {title: 'The Halal Guys', location: {lat: 29.934997, lng:  -90.108576}},
-    {title: 'Felipe\'s Mexican Taqueria', location: {lat: 29.946572, lng: -90.113087}},
-    {title: 'Commander\'s Palace', location: {lat: 29.928723, lng: -90.084324}},
-    {title: 'The Bulldog, Uptown', location: {lat: 29.923530, lng: -90.087461}}
+    {title: 'Lebanon\'s Cafe', location: {lat: 29.949595, lng: -90.127439}, id :"4ad4c04df964a5207cf320e3"},
+    {title: 'The Halal Guys', location: {lat: 29.934997, lng:  -90.108576}, id :"58962c42cf11d448aa676f25"},
+    {title: 'Felipe\'s Mexican Taqueria', location: {lat: 29.946572, lng: -90.113087}, id :"4ad4c04cf964a52004f320e3"},
+    {title: 'Commander\'s Palace', location: {lat: 29.928723, lng: -90.084324}, id :"4ad4c050f964a520abf420e3"},
+    {title: 'The Bulldog, Uptown', location: {lat: 29.923530, lng: -90.087461}, id :"41326e00f964a520a11a1fe3"}
 ];
 var map;
 function initMap() {
@@ -27,6 +27,8 @@ var Location = function (data){
     this.lat = ko.observable(data.location.lat);
     this.lng = ko.observable(data.location.lng);
     this.marker = ko.observable();
+    this.id = ko.observable(data.id);
+    this.rating = ko.observable('');
 
 };
 
@@ -80,6 +82,18 @@ var ViewModel = function(){
             this.setIcon(defaultIcon);
           });
         bounds.extend(locationItem.marker.position);
+        // make ajax request to Foursquare.
+        $.ajax({
+        url: 'https://api.foursquare.com/v2/venues/' + locationItem.id() +
+        '?client_id=EKP3EYHBY0A0D3BW2TIBOE3A0QHQEMRB0EXW3YHBB4YRV2GQ&client_secret=Z5EBPJKFN0EDI53DLUGP4UDM1ZFF5YUSEIPHHFUUOPR4W1RZ&v=20130815',
+        dataType: "json",
+        success: function (data) {
+            // Make results easier to handle
+            var result = data.response.venue;
+            // check data gotten from Foursquare
+            console.log(result);
+            }
+        });
     })
     map.fitBounds(bounds);
     // This function populates the infowindow when the marker is clicked. We'll only allow
