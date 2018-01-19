@@ -34,10 +34,10 @@ var Location = function (data){
 
 var ViewModel = function(){
     var self = this;
-    // an empty array to contain the names of each restaurant.
+    // an empty observable array to contain each restaurant.
     this.locationList = ko.observableArray([]);
     // loop over locations array and create a new Location object for each restaurant in locationList
-    // and store is in the locationList array.
+    // and store it in the locationList array.
     locations.forEach(function(locationItem){
         self.locationList.push(new Location(locationItem));
     });
@@ -57,11 +57,13 @@ var ViewModel = function(){
         // get position from location array
         var position = new google.maps.LatLng(locationItem.lat(),locationItem.lng());
         var title = locationItem.title();
+        var id = locationItem.id();
         var marker = new google.maps.Marker({
             position:position,
             title:title,
             map:map,
             title:title,
+            id:id,
             animation:google.maps.Animation.DROP,
             icon: defaultIcon
             });
@@ -83,17 +85,17 @@ var ViewModel = function(){
           });
         bounds.extend(locationItem.marker.position);
         // make ajax request to Foursquare.
-        $.ajax({
-        url: 'https://api.foursquare.com/v2/venues/' + locationItem.id() +
-        '?client_id=EKP3EYHBY0A0D3BW2TIBOE3A0QHQEMRB0EXW3YHBB4YRV2GQ&client_secret=Z5EBPJKFN0EDI53DLUGP4UDM1ZFF5YUSEIPHHFUUOPR4W1RZ&v=20130815',
-        dataType: "json",
-        success: function (data) {
-            // Make results easier to handle
-            var result = data.response.venue;
-            // check data gotten from Foursquare
-            console.log(result);
-            }
-        });
+        // $.ajax({
+        // url: 'https://api.foursquare.com/v2/venues/' + locationItem.id() +
+        // '?client_id=EKP3EYHBY0A0D3BW2TIBOE3A0QHQEMRB0EXW3YHBB4YRV2GQ&client_secret=Z5EBPJKFN0EDI53DLUGP4UDM1ZFF5YUSEIPHHFUUOPR4W1RZ&v=20130815',
+        // dataType: "json",
+        // success: function (data) {
+        //     // Make results easier to handle
+        //     var result = data.response.venue;
+        //     // check data gotten from Foursquare
+        //     console.log(result);
+        //     }
+        // });
     })
     map.fitBounds(bounds);
     // This function populates the infowindow when the marker is clicked. We'll only allow
