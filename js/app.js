@@ -29,6 +29,7 @@ var Location = function (data){
     this.marker = ko.observable();
     this.id = ko.observable(data.id);
     this.rating = ko.observable('');
+    this.url = ko.observable('');
 
 };
 
@@ -58,12 +59,16 @@ var ViewModel = function(){
         var position = new google.maps.LatLng(locationItem.lat(),locationItem.lng());
         var title = locationItem.title();
         var id = locationItem.id();
+        var rating = locationItem.rating();
+        var url = locationItem.url();
         var marker = new google.maps.Marker({
             position:position,
             title:title,
             map:map,
             title:title,
             id:id,
+            rating:rating,
+            url:url,
             animation:google.maps.Animation.DROP,
             icon: defaultIcon
             });
@@ -137,8 +142,11 @@ var ViewModel = function(){
         success: function (data) {
             // Make results easier to handle
             var result = data.response.venue;
+            marker.rating = result.rating;
+            marker.url = result.url;
             // check data gotten from Foursquare
-            console.log(result);
+            console.log(marker.rating);
+            console.log(marker.url);
             }
         });
     }
