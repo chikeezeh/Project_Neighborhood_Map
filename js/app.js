@@ -84,18 +84,6 @@ var ViewModel = function(){
             this.setIcon(defaultIcon);
           });
         bounds.extend(locationItem.marker.position);
-        // make ajax request to Foursquare.
-        // $.ajax({
-        // url: 'https://api.foursquare.com/v2/venues/' + locationItem.id() +
-        // '?client_id=EKP3EYHBY0A0D3BW2TIBOE3A0QHQEMRB0EXW3YHBB4YRV2GQ&client_secret=Z5EBPJKFN0EDI53DLUGP4UDM1ZFF5YUSEIPHHFUUOPR4W1RZ&v=20130815',
-        // dataType: "json",
-        // success: function (data) {
-        //     // Make results easier to handle
-        //     var result = data.response.venue;
-        //     // check data gotten from Foursquare
-        //     console.log(result);
-        //     }
-        // });
     })
     map.fitBounds(bounds);
     // This function populates the infowindow when the marker is clicked. We'll only allow
@@ -142,6 +130,17 @@ var ViewModel = function(){
             // Open the infowindow on the correct marker.
             infowindow.open(map, marker);
         }
+        $.ajax({
+        url: 'https://api.foursquare.com/v2/venues/' + marker.id +
+        '?client_id=EKP3EYHBY0A0D3BW2TIBOE3A0QHQEMRB0EXW3YHBB4YRV2GQ&client_secret=Z5EBPJKFN0EDI53DLUGP4UDM1ZFF5YUSEIPHHFUUOPR4W1RZ&v=20130815',
+        dataType: "json",
+        success: function (data) {
+            // Make results easier to handle
+            var result = data.response.venue;
+            // check data gotten from Foursquare
+            console.log(result);
+            }
+        });
     }
     // This function takes in a COLOR, and then creates a new marker
     // icon of that color. The icon will be 21 px wide by 34 high, have an origin
