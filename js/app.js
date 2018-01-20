@@ -103,8 +103,18 @@ var ViewModel = function(){
         success: function (data) {
             // Make results easier to handle
             var result = data.response.venue;
-            marker.rating = result.rating;
-            marker.url = result.url;
+            // check if the rating property is in the result returned.
+            if (result.hasOwnProperty('rating')){
+                marker.rating = result.rating;
+            }else{
+                marker.rating = 'No rating';
+            }
+            // check if the url property is in the result returned.
+            if (result.hasOwnProperty('url')){
+                marker.url = result.url;
+            }else{
+                marker.url = ' ';
+            }
             // check data gotten from Foursquare
             console.log(marker.rating);
             console.log(marker.url);
