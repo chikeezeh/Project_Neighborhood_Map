@@ -115,9 +115,6 @@ var ViewModel = function(){
             }else{
                 marker.url = ' ';
             }
-            // check data gotten from Foursquare
-            console.log(marker.rating);
-            console.log(marker.url);
             // Check to make sure the infowindow is not already opened on this marker.
             if (infowindow.marker != marker) {
                 infowindow.marker = marker;
@@ -137,7 +134,9 @@ var ViewModel = function(){
                         var nearStreetViewLocation = data.location.latLng;
                         var heading = google.maps.geometry.spherical.computeHeading(
                             nearStreetViewLocation, marker.position);
-                        var infoWindowContent = '<div><a target="_blank" href =' + marker.url + '>'+marker.title+'</a></div><div id="pano"></div>'
+                        var infoWindowContent = '<p>Information from Foursquare API</P><div>Website: <a  target = _blank href ='
+                        +marker.url+'>'+marker.title + '</a></div><br><div>Rating: '
+                        + marker.rating+ ' of 10</div><br><div id="pano"></div>';
                         infowindow.setContent(infoWindowContent);
                         var panoramaOptions = {
                             position: nearStreetViewLocation,
@@ -149,8 +148,10 @@ var ViewModel = function(){
                         var panorama = new google.maps.StreetViewPanorama(
                             document.getElementById('pano'), panoramaOptions);
                     } else {
-                        infowindow.setContent('<div>' + marker.title + '</div>' +
-                        '<div>No Street View Found</div>');
+                        infoWindowContent = '<p>Information from Foursquare API</P><div>Website: <a  target = _blank href ='+
+                        marker.url+'>'+marker.title + '</a></div><br><div>Rating: '+
+                        marker.rating+ ' of 10</div><br><div>No Street View Found</div>';
+                        infowindow.setContent(infoWindowContent);
                         }
                 }
                 // Use streetview service to get the closest streetview image within
