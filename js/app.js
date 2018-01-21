@@ -97,7 +97,7 @@ var ViewModel = function(){
     self.populateInfoWindow = function (marker, infowindow) {
         $.ajax({
             url: 'https://api.foursquare.com/v2/venues/' + marker.id +
-            '?client_id=EKP3EYHBY0A0D3BW2TIBOE3A0QHQEMRB0EXW3YHBB4YRV2GQ&client_secret=Z5EBPJKFN0EDI53DLUGP4UDM1ZFF5YUSEIPHHFUUOPR4W1RZ&v=20130815',
+            '?client_id=KP3EYHBY0A0D3BW2TIBOE3A0QHQEMRB0EXW3YHBB4YRV2GQ&client_secret=Z5EBPJKFN0EDI53DLUGP4UDM1ZFF5YUSEIPHHFUUOPR4W1RZ&v=20130815',
             dataType: "json",
             success: function (data) {
                 // Make results easier to handle
@@ -159,7 +159,11 @@ var ViewModel = function(){
                     // Open the infowindow on the correct marker.
                     infowindow.open(map, marker);
                 }
-                }
+            },
+            error: function(e) {
+                infowindow.setContent('<h4>Foursquare data is unavailable. Please try refreshing later.</h4>');
+                infowindow.open(map, marker);
+            }
         });
     }
     // This function takes in a COLOR, and then creates a new marker
