@@ -32,9 +32,7 @@ var Location = function (data) {
     this.id = ko.observable(data.id);
     this.rating = ko.observable('');
     this.url = ko.observable('');
-
 };
-
 var ViewModel = function(){
     var self = this;
     // an empty observable array to contain each restaurant.
@@ -48,7 +46,6 @@ var ViewModel = function(){
     var largeInfowindow = new google.maps.InfoWindow();
     // initialize the marker
     var markers = [];
-
     // code from non ko method
     var defaultIcon = makeMarkerIcon('bf0505');
     // Create a "highlighted location" marker color for when the user
@@ -168,7 +165,6 @@ var ViewModel = function(){
             }
         });
     }
-
 }
     // This function takes in a COLOR, and then creates a new marker
     // icon of that color. The icon will be 21 px wide by 34 high, have an origin
@@ -183,8 +179,6 @@ var ViewModel = function(){
             new google.maps.Size(21,34));
             return markerImage;
     }
-
-
     //when the user clicks on the list it triggers a click on the corresponding marker.
     self.showInfo = function (locationItem) {
         google.maps.event.trigger(locationItem.marker, 'click');
@@ -205,14 +199,12 @@ var ViewModel = function(){
     });
     // track the user input
     self.userInput = ko.observable('');
-
     // take user input and use it to filter the locations on the list.
     self.filterMarkers = function () {
         // convert the user input to lower case letters
         var searchInput = self.userInput().toLowerCase();
         // remove all the visible location list
         self.visibleList.removeAll();
-
         self.locationList().forEach(function (locationItem) {
             locationItem.marker.setVisible(false);
             // Compare the name of each place to user input
