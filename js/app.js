@@ -1,28 +1,30 @@
 // data model for locations to show on map
 var locations = [
-    {title: 'Lebanon\'s Cafe', location: {lat: 29.949595, lng: -90.127439}, id :"4ad4c04df964a5207cf320e3"},
-    {title: 'The Halal Guys', location: {lat: 29.934997, lng:  -90.108576}, id :"58962c42cf11d448aa676f25"},
-    {title: 'Felipe\'s Mexican Taqueria', location: {lat: 29.946572, lng: -90.113087}, id :"4ad4c04cf964a52004f320e3"},
-    {title: 'Commander\'s Palace', location: {lat: 29.928723, lng: -90.084324}, id :"4ad4c050f964a520abf420e3"},
-    {title: 'The Bulldog, Uptown', location: {lat: 29.923530, lng: -90.087461}, id :"41326e00f964a520a11a1fe3"}
+    {title: "Lebanon's Cafe", location: {lat: 29.949595, lng: -90.127439}, id: "4ad4c04df964a5207cf320e3"},
+    {title: "The Halal Guys", location: {lat: 29.934997, lng: -90.108576}, id: "58962c42cf11d448aa676f25"},
+    {title: "Felipe's Mexican Taqueria", location: {lat: 29.946572, lng: -90.113087}, id: "4ad4c04cf964a52004f320e3"},
+    {title: "Commander's Palace", location: {lat: 29.928723, lng: -90.084324}, id: "4ad4c050f964a520abf420e3"},
+    {title: "The Bulldog, Uptown", location: {lat: 29.923530, lng: -90.087461}, id: "41326e00f964a520a11a1fe3"}
 ];
 var map;
 function initMap() {
+    "use strict";
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 29.948762, lng: -90.127115},
-    zoom: 13,
-    disableDefaultUI: true
+        center: {lat: 29.948762, lng: -90.127115},
+        zoom: 13,
+        disableDefaultUI: true
     });
     // start the view model here, so that it only works when Google map is succesfully loaded.
     ko.applyBindings(new ViewModel());
 }
 // error that alerts users if the map doesnt load.
 function googleMapError(){
-    document.getElementById('error').innerHTML = "<h2>Google Maps is not loading, please check your connection, or try reloading the page.</h2>";
+    "use strict";
+    document.getElementById("error").innerHTML = "<h2>Google Maps is not loading, please check your connection, or try reloading the page.</h2>";
 }
 // Location constructor, takes in a location list and creates a ko object.
-var Location = function (data){
+var Location = function (data) {
     this.title = ko.observable(data.title);
     this.lat = ko.observable(data.location.lat);
     this.lng = ko.observable(data.location.lng);
@@ -39,7 +41,7 @@ var ViewModel = function(){
     this.locationList = ko.observableArray([]);
     // loop over locations array and create a new Location object for each restaurant in locationList
     // and store it in the locationList array.
-    locations.forEach(function(locationItem){
+    locations.forEach(function(locationItem) {
         self.locationList.push(new Location(locationItem));
     });
     // initialize the infowindow
@@ -54,7 +56,7 @@ var ViewModel = function(){
     var highlightedIcon = makeMarkerIcon('e3ed74');
     var bounds = new google.maps.LatLngBounds();
     // loop over the locationList array and create a marker and infowindow.
-    self.locationList().forEach(function (locationItem){
+    self.locationList().forEach(function (locationItem) {
         // get position from location array
         var position = new google.maps.LatLng(locationItem.lat(),locationItem.lng());
         var title = locationItem.title();
@@ -77,15 +79,15 @@ var ViewModel = function(){
         // push each marker to the markers array
         markers.push(marker);
         // create an onclick event to open an infowindow at each marker.
-        marker.addListener('click', function() {
+        marker.addListener("click", function() {
           self.populateInfoWindow(this, largeInfowindow);
         });
         // Two event listeners - one for mouseover, one for mouseout,
           // to change the colors back and forth.
-          marker.addListener('mouseover', function() {
+          marker.addListener("mouseover", function() {
             this.setIcon(highlightedIcon);
           });
-          marker.addListener('mouseout', function() {
+          marker.addListener("mouseout", function() {
             this.setIcon(defaultIcon);
           });
         bounds.extend(locationItem.marker.position);
@@ -98,13 +100,13 @@ var ViewModel = function(){
     // check to make sure the infowindow is not open yet.
     if (infowindow.marker != marker) {
         // Clear the infowindow content to give the streetview time to load.
-        infowindow.setContent('');
+        infowindow.setContent(" ");
         infowindow.marker = marker;
         // Make sure the marker property is cleared if the infowindow is closed.
-        infowindow.addListener('closeclick', function() {
+        infowindow.addListener("closeclick", function() {
             infowindow.marker = null;
         });
-        var infowindowContent ='<p><h5>'+ marker.title+'</h5></p>';
+        var infowindowContent ="<p><h5>"+ marker.title+"</h5></p>";
         infowindow.setContent(infowindowContent);
         // get google street view
         var streetViewService = new google.maps.StreetViewService();
