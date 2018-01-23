@@ -152,7 +152,9 @@ var ViewModel = function(){
                 }else{
                     marker.url = ' ';
                 }
-                infowindowContent+='<p>Information from Foursquare API</P><div>Website: <a  target = _blank href ='+marker.url+'>'+marker.title + '</a></div><br><div>Rating: '+ marker.rating+ ' of 10</div>';
+                infowindowContent+='<p>Information from Foursquare API</P><div>Website: <a  target = _blank href ='+
+                marker.url+'>'+marker.title + '</a></div><br><div>Rating: '+
+                marker.rating+ ' of 10</div>';
                 // call the getStreetView function here so that the AJAX response doesnt overwrite it.
                 streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
                 infowindow.setContent(infowindowContent);
@@ -171,8 +173,8 @@ var ViewModel = function(){
     // of 0, 0 and be anchored at 10, 34).
     function makeMarkerIcon(markerColor) {
         var markerImage = new google.maps.MarkerImage(
-            'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
-            '|40|_|%E2%80%A2',
+            "http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|"+ markerColor +
+            "|40|_|%E2%80%A2",
             new google.maps.Size(21, 34),
             new google.maps.Point(0, 0),
             new google.maps.Point(10, 34),
@@ -181,15 +183,15 @@ var ViewModel = function(){
     }
     //when the user clicks on the list it triggers a click on the corresponding marker.
     self.showInfo = function (locationItem) {
-        google.maps.event.trigger(locationItem.marker, 'click');
+        google.maps.event.trigger(locationItem.marker, "click");
     };
     //when the user hovers on the list it triggers a mouse hover on the corresponding marker.
     self.hoverMarkerIn = function (locationItem) {
-        google.maps.event.trigger(locationItem.marker, 'mouseover');
+        google.maps.event.trigger(locationItem.marker, "mouseover");
     };
     //when the user hovers out the list it triggers a mouse hover out on the corresponding marker.
     self.hoverMarkerOut = function (locationItem) {
-        google.maps.event.trigger(locationItem.marker, 'mouseout');
+        google.maps.event.trigger(locationItem.marker, "mouseout");
     };
     // filter the locations based on user input
     self.visibleList = ko.observableArray([]); // an array of the list that should be visible.
