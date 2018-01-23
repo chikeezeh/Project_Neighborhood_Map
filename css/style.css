@@ -1,6 +1,8 @@
 /*General CSS grid*/
-.container {
+.container-fluid {
     display: grid;
+    margin:0;
+    padding:0;
 }
 aside {
     background: #01041c;
@@ -32,13 +34,13 @@ ul{
 }
 /*big screen setup*/
 @media only screen and (min-width: 600px) {
-    .container {
+    .container-fluid {
         display: grid;
         grid-gap:0px;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows:100vh;
         grid-template-areas:
-            "a a m m";
+            "a m m m";
         }
         header {
             display:none;
@@ -49,7 +51,7 @@ ul{
 }
 /*Small screen setup*/
 @media only screen and (max-width: 599px) {
-    .container {
+    .container-fluid {
         display: grid;
         grid-gap:0px;
         grid-template-columns: repeat(4, 1fr);

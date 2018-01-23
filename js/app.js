@@ -157,8 +157,6 @@ var ViewModel = function(){
                 // call the getStreetView function here so that the AJAX response doesnt overwrite it.
                 streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
                 infowindow.setContent(infowindowContent);
-                console.log(infowindowContent);
-
             },
             error: function(e) {
                 streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
