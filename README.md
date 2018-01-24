@@ -9,11 +9,15 @@ Clone the viewmodel Branch, then run the index.html file. Use the search box to 
 Click on the corresponding marker to see the street view of the restaurant in the info window.
 
 ### **Credits & Resources**
-[knockoutjs tutorial](http://learn.knockoutjs.com/#/?tutorial=intro)
-[Foursquare API](https://developer.foursquare.com/) for getting the restaurant rating and url.
-[Google Map API](https://developers.google.com/maps/)
-This [blog post](https://webdesign.tutsplus.com/tutorials/how-to-build-an-off-canvas-navigation-with-css-grid--cms-28191) helped in designing the off-canvas navigation for smaller screens.
-Udacity class on Google Maps was helpful too.
+1.[knockoutjs tutorial](http://learn.knockoutjs.com/#/?tutorial=intro)
+
+2.[Foursquare API](https://developer.foursquare.com/) for getting the restaurant rating and url.
+
+3.[Google Map API](https://developers.google.com/maps/)
+
+4.This [blog post](https://webdesign.tutsplus.com/tutorials/how-to-build-an-off-canvas-navigation-with-css-grid--cms-28191) helped in designing the off-canvas navigation for smaller screens.
+
+5.Udacity class on Google Maps was helpful too.
 
 ## **LICENSE**
 MIT License
