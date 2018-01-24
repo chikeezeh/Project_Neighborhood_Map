@@ -10,7 +10,7 @@ var map;
 function initMap() {
     "use strict";
     // Constructor creates a new map - only center and zoom are required.
-    map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById("map"), {
         center: {lat: 29.948762, lng: -90.127115},
         zoom: 13,
         disableDefaultUI: true
@@ -19,27 +19,29 @@ function initMap() {
     ko.applyBindings(new ViewModel());
 }
 // error that alerts users if the map doesnt load.
-function googleMapError(){
+function googleMapError() {
     "use strict";
     document.getElementById("error").innerHTML = "<h2>Google Maps is not loading, please check your connection, or try reloading the page.</h2>";
 }
 // Location constructor, takes in a location list and creates a ko object.
 var Location = function (data) {
+    "use strict";
     this.title = ko.observable(data.title);
     this.lat = ko.observable(data.location.lat);
     this.lng = ko.observable(data.location.lng);
     this.marker = ko.observable();
     this.id = ko.observable(data.id);
-    this.rating = ko.observable('');
-    this.url = ko.observable('');
+    this.rating = ko.observable("");
+    this.url = ko.observable("");
 };
-var ViewModel = function(){
+var ViewModel = function () {
+    "use strict";
     var self = this;
     // an empty observable array to contain each restaurant.
     this.locationList = ko.observableArray([]);
     // loop over locations array and create a new Location object for each restaurant in locationList
     // and store it in the locationList array.
-    locations.forEach(function(locationItem) {
+    locations.forEach(function (locationItem) {
         self.locationList.push(new Location(locationItem));
     });
     // initialize the infowindow
@@ -47,127 +49,121 @@ var ViewModel = function(){
     // initialize the marker
     var markers = [];
     // code from non ko method
-    var defaultIcon = makeMarkerIcon('bf0505');
+    var defaultIcon = makeMarkerIcon("bf0505");
     // Create a "highlighted location" marker color for when the user
     // mouses over the marker.
-    var highlightedIcon = makeMarkerIcon('e3ed74');
+    var highlightedIcon = makeMarkerIcon("e3ed74");
     var bounds = new google.maps.LatLngBounds();
     // loop over the locationList array and create a marker and infowindow.
     self.locationList().forEach(function (locationItem) {
         // get position from location array
-        var position = new google.maps.LatLng(locationItem.lat(),locationItem.lng());
+        var position = new google.maps.LatLng(locationItem.lat(), locationItem.lng());
         var title = locationItem.title();
         var id = locationItem.id();
         var rating = locationItem.rating();
         var url = locationItem.url();
         var marker = new google.maps.Marker({
-            position:position,
-            title:title,
-            map:map,
-            title:title,
-            id:id,
-            rating:rating,
-            url:url,
-            animation:google.maps.Animation.DROP,
+            position: position,
+            title: title,
+            map: map,
+            id: id,
+            rating: rating,
+            url: url,
+            animation: google.maps.Animation.DROP,
             icon: defaultIcon
-            });
+        });
         // assign the marker object to each locationItem
         locationItem.marker = marker;
         // push each marker to the markers array
         markers.push(marker);
         // create an onclick event to open an infowindow at each marker.
-        marker.addListener("click", function() {
-          self.populateInfoWindow(this, largeInfowindow);
+        marker.addListener("click", function () {
+            self.populateInfoWindow(this, largeInfowindow);
         });
         // Two event listeners - one for mouseover, one for mouseout,
-          // to change the colors back and forth.
-          marker.addListener("mouseover", function() {
+        // to change the colors back and forth.
+        marker.addListener("mouseover", function () {
             this.setIcon(highlightedIcon);
-          });
-          marker.addListener("mouseout", function() {
+        });
+        marker.addListener("mouseout", function () {
             this.setIcon(defaultIcon);
-          });
+        });
         bounds.extend(locationItem.marker.position);
-    })
+    });
     map.fitBounds(bounds);
     // This function populates the infowindow when the marker is clicked. We'll only allow
     // one infowindow which will open at the marker that is clicked, and populate based
     // on that markers position.
     self.populateInfoWindow = function (marker, infowindow) {
-    // check to make sure the infowindow is not open yet.
-    if (infowindow.marker != marker) {
-        // Clear the infowindow content to give the streetview time to load.
-        infowindow.setContent(" ");
-        infowindow.marker = marker;
-        // Make sure the marker property is cleared if the infowindow is closed.
-        infowindow.addListener("closeclick", function() {
-            infowindow.marker = null;
-        });
-        var infowindowContent ="<p><h5>"+ marker.title+"</h5></p>";
-        infowindow.setContent(infowindowContent);
-        // get google street view
-        var streetViewService = new google.maps.StreetViewService();
-        var radius = 50;
-        function getStreetView(data, status) {
-            if (status == google.maps.StreetViewStatus.OK) {
-                var nearStreetViewLocation = data.location.latLng;
-                var heading = google.maps.geometry.spherical.computeHeading(
-                    nearStreetViewLocation, marker.position);
-                infowindowContent+='</div><br><div id="pano"></div>';
-                infowindow.setContent(infowindowContent);
-                var panoramaOptions = {
-                    position: nearStreetViewLocation,
-                    pov: {
+        // check to make sure the infowindow is not open yet.
+        if (infowindow.marker !== marker) {
+            // Clear the infowindow content to give the streetview time to load.
+            infowindow.setContent(" ");
+            infowindow.marker = marker;
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener("closeclick", function () {
+                infowindow.marker = null;
+            });
+            var infowindowContent = "<p><h5>" + marker.title + "</h5></p>";
+            infowindow.setContent(infowindowContent);
+            // get google street view
+            var streetViewService = new google.maps.StreetViewService();
+            var radius = 50;
+            function getStreetView(data, status) {
+                if (status === google.maps.StreetViewStatus.OK) {
+                    var nearStreetViewLocation = data.location.latLng;
+                    var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
+                    infowindowContent += "</div><br><div id='pano'></div>";
+                    infowindow.setContent(infowindowContent);
+                    var panoramaOptions = {
+                        position: nearStreetViewLocation,
+                        pov: {
                             heading: heading,
                             pitch: 30
                         }
                     };
-                var panorama = new google.maps.StreetViewPanorama(
-                    document.getElementById('pano'), panoramaOptions);
-            } else {
-                infowindowContent += '<div>No Street View Found</div>';
-                infowindow.setContent(infowindowContent);
+                    var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+                } else {
+                    infowindowContent += '<div>No Street View Found</div>';
+                    infowindow.setContent(infowindowContent);
                 }
-        }
-        // Use streetview service to get the closest streetview image within
-        // 50 meters of the markers position
-        //streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-        infowindow.open(map, marker);
-        $.ajax({
-            url: 'https://api.foursquare.com/v2/venues/' + marker.id +
-            '?client_id=EKP3EYHBY0A0D3BW2TIBOE3A0QHQEMRB0EXW3YHBB4YRV2GQ&client_secret=Z5EBPJKFN0EDI53DLUGP4UDM1ZFF5YUSEIPHHFUUOPR4W1RZ&v=20130815',
-            dataType: "json",
-            success: function (data) {
-                // Make results easier to handle
-                var result = data.response.venue;
-                // check if the rating property is in the result returned.
-                if (result.hasOwnProperty('rating')){
-                    marker.rating = result.rating;
-                }else{
-                    marker.rating = 'No rating';
-                }
-                // check if the url property is in the result returned.
-                if (result.hasOwnProperty('url')){
-                    marker.url = result.url;
-                }else{
-                    marker.url = ' ';
-                }
-                infowindowContent+='<p>Information from Foursquare API</P><div>Website: <a  target = _blank href ='+
-                marker.url+'>'+marker.title + '</a></div><br><div>Rating: '+
-                marker.rating+ ' of 10</div>';
-                // call the getStreetView function here so that the AJAX response doesnt overwrite it.
-                streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-                infowindow.setContent(infowindowContent);
-            },
-            error: function(e) {
-                streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-                infowindowContent+='<h4>Foursquare data is unavailable. Please try refreshing later.</h4>';
-                infowindow.setContent(infowindowContent);
-                //infowindow.open(map, marker);
             }
-        });
+            infowindow.open(map, marker);
+            $.ajax({
+                url: 'https://api.foursquare.com/v2/venues/' + marker.id +
+                '?client_id=EKP3EYHBY0A0D3BW2TIBOE3A0QHQEMRB0EXW3YHBB4YRV2GQ&client_secret=Z5EBPJKFN0EDI53DLUGP4UDM1ZFF5YUSEIPHHFUUOPR4W1RZ&v=20130815',
+                dataType: "json",
+                success: function (data) {
+                    // Make results easier to handle
+                    var result = data.response.venue;
+                    // check if the rating property is in the result returned.
+                    if (result.hasOwnProperty("rating")) {
+                        marker.rating = result.rating;
+                    } else {
+                        marker.rating = "No rating";
+                    }
+                    // check if the url property is in the result returned.
+                    if (result.hasOwnProperty("url")) {
+                        marker.url = result.url;
+                    } else {
+                        marker.url ="  ";
+                    }
+                    infowindowContent += "<p>Information from Foursquare API</P><div>Website: <a  target = _blank href =" +
+                    marker.url + ">" + marker.title + "</a></div><br><div>Rating: " +
+                    marker.rating + " of 10</div>";
+                    // call the getStreetView function here so that the AJAX response doesnt overwrite it.
+                    streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+                    infowindow.setContent(infowindowContent);
+                },
+                error: function (e) {
+                    streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+                    infowindowContent += "<h4>Foursquare data is unavailable. Please try refreshing later.</h4>";
+                    infowindow.setContent(infowindowContent);
+                    //infowindow.open(map, marker);
+                }
+            });
+        }
     }
-}
     // This function takes in a COLOR, and then creates a new marker
     // icon of that color. The icon will be 21 px wide by 34 high, have an origin
     // of 0, 0 and be anchored at 10, 34).
