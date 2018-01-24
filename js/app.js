@@ -77,7 +77,12 @@ var ViewModel = function () {
         // push each marker to the markers array
         markers.push(marker);
         // create an onclick event to open an infowindow at each marker.
-        marker.addListener("click", function () {
+        locationItem.marker.addListener("click", function () {
+            locationItem.marker.setAnimation(google.maps.Animation.BOUNCE);
+            // make the bounce animation stop after 0.3 secs
+            setTimeout(function () {
+                locationItem.marker.setAnimation(null);
+            }, 300);
             populateInfoWindow(this, largeInfowindow);
         });
         // Two event listeners - one for mouseover, one for mouseout,
