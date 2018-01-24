@@ -78,7 +78,7 @@ var ViewModel = function () {
         markers.push(marker);
         // create an onclick event to open an infowindow at each marker.
         marker.addListener("click", function () {
-            self.populateInfoWindow(this, largeInfowindow);
+            populateInfoWindow(this, largeInfowindow);
         });
         // Two event listeners - one for mouseover, one for mouseout,
         // to change the colors back and forth.
@@ -94,7 +94,7 @@ var ViewModel = function () {
     // This function populates the infowindow when the marker is clicked. We'll only allow
     // one infowindow which will open at the marker that is clicked, and populate based
     // on that markers position.
-    self.populateInfoWindow = function (marker, infowindow) {
+    function populateInfoWindow(marker, infowindow) {
         // check to make sure the infowindow is not open yet.
         if (infowindow.marker !== marker) {
             // Clear the infowindow content to give the streetview time to load.
@@ -109,7 +109,7 @@ var ViewModel = function () {
             // get google street view
             var streetViewService = new google.maps.StreetViewService();
             var radius = 50;
-            function getStreetView(data, status) {
+            var getStreetView = function (data, status) {
                 if (status === google.maps.StreetViewStatus.OK) {
                     var nearStreetViewLocation = data.location.latLng;
                     var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
@@ -122,16 +122,16 @@ var ViewModel = function () {
                             pitch: 30
                         }
                     };
-                    var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+                    var panorama = new google.maps.StreetViewPanorama(document.getElementById("pano"), panoramaOptions);
                 } else {
-                    infowindowContent += '<div>No Street View Found</div>';
+                    infowindowContent += "<div>No Street View Found</div>";
                     infowindow.setContent(infowindowContent);
                 }
-            }
+            };
             infowindow.open(map, marker);
             $.ajax({
-                url: 'https://api.foursquare.com/v2/venues/' + marker.id +
-                '?client_id=EKP3EYHBY0A0D3BW2TIBOE3A0QHQEMRB0EXW3YHBB4YRV2GQ&client_secret=Z5EBPJKFN0EDI53DLUGP4UDM1ZFF5YUSEIPHHFUUOPR4W1RZ&v=20130815',
+                url: "https://api.foursquare.com/v2/venues/" + marker.id +
+                "?client_id=EKP3EYHBY0A0D3BW2TIBOE3A0QHQEMRB0EXW3YHBB4YRV2GQ&client_secret=Z5EBPJKFN0EDI53DLUGP4UDM1ZFF5YUSEIPHHFUUOPR4W1RZ&v=20130815",
                 dataType: "json",
                 success: function (data) {
                     // Make results easier to handle
@@ -146,7 +146,7 @@ var ViewModel = function () {
                     if (result.hasOwnProperty("url")) {
                         marker.url = result.url;
                     } else {
-                        marker.url ="  ";
+                        marker.url = "  ";
                     }
                     infowindowContent += "<p>Information from Foursquare API</P><div>Website: <a  target = _blank href =" +
                     marker.url + ">" + marker.title + "</a></div><br><div>Rating: " +
@@ -169,13 +169,14 @@ var ViewModel = function () {
     // of 0, 0 and be anchored at 10, 34).
     function makeMarkerIcon(markerColor) {
         var markerImage = new google.maps.MarkerImage(
-            "http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|"+ markerColor +
+            "http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|" + markerColor +
             "|40|_|%E2%80%A2",
             new google.maps.Size(21, 34),
             new google.maps.Point(0, 0),
             new google.maps.Point(10, 34),
-            new google.maps.Size(21,34));
-            return markerImage;
+            new google.maps.Size(21, 34)
+        );
+        return markerImage;
     }
     //when the user clicks on the list it triggers a click on the corresponding marker.
     self.showInfo = function (locationItem) {
@@ -192,11 +193,11 @@ var ViewModel = function () {
     // filter the locations based on user input
     self.visibleList = ko.observableArray([]); // an array of the list that should be visible.
     // the visibleList should contain all the array initially, then filter it by search input.
-    self.locationList().forEach(function (locationItem){
+    self.locationList().forEach(function (locationItem) {
         self.visibleList.push(locationItem);
     });
     // track the user input
-    self.userInput = ko.observable('');
+    self.userInput = ko.observable("");
     // take user input and use it to filter the locations on the list.
     self.filterMarkers = function () {
         // convert the user input to lower case letters
